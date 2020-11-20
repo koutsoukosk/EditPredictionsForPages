@@ -1,0 +1,40 @@
+﻿@model CoronaPredictionsAspNetCore.Models.RealCases
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>RealCases</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DayOfRealCases)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DayOfRealCases)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DateOfRealCases)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DateOfRealCases)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RealCasesNo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RealCasesNo)
+        </dd>
+    </dl>
+</div>
+<div class="row">
+    <div class="mx-2" style="width: 75px; ">
+        <a asp-action="Edit" asp-route-id="@Model.RealCaseID"><i class="fas fa-edit fa-2x"></i>Edit</a>
+    </div>
+    <div class="mx-2" style="width: 150px;">
+        <a asp-action="Index" class="btn btn-outline-primary" type="reset"> Back to List</a>
+    </div>
+</div>

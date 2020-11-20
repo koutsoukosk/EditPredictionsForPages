@@ -1,0 +1,48 @@
+﻿@model CoronaPredictionsAspNetCore.Models.Predictions
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+<link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+<div>
+    <h4>Predictions</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DayOfPrediction)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DayOfPrediction)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DateOfPrediction)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DateOfPrediction)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PlayerName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PlayerName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CasesOfPrediction)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CasesOfPrediction)
+        </dd>
+    </dl>
+</div>
+<div>
+    <div class="row">
+        <div class="mx-2" style="width: 75px; ">
+            <a asp-action="Edit" asp-route-id="@Model.PredictionID"><i class="fas fa-edit fa-2x"></i>Edit</a>
+        </div>
+            <div class="mx-2" style="width: 150px;">
+                <a asp-action="Index" class="btn btn-outline-primary" type="reset"> Back to List</a>
+            </div>
+    </div>
+</div>

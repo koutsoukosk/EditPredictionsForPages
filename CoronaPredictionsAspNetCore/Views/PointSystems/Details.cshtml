@@ -1,0 +1,46 @@
+﻿@model CoronaPredictionsAspNetCore.Models.PointSystem
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>PointSystem</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CategoryName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CategoryName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MoreOrEqualThanDif)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MoreOrEqualThanDif)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LessOrEqualThanDif)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LessOrEqualThanDif)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CategoryPoints)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CategoryPoints)
+        </dd>
+    </dl>
+</div>
+<div class="row">
+    <div class="mx-2" style="width: 75px; ">
+        <a asp-action="Edit" asp-route-id="@Model.PointSystemID"><i class="fas fa-edit fa-2x"></i>Edit</a>
+    </div>
+    <div class="mx-2" style="width: 150px;">
+        <a asp-action="Index" class="btn btn-outline-primary" type="reset"> Back to List</a>
+    </div>
+</div>

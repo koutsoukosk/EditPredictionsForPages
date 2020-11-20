@@ -1,0 +1,60 @@
+﻿@model IEnumerable<CoronaPredictionsAspNetCore.Models.PlayerOfDay>
+@{
+    ViewData["Title"] = "Players Of The Day";
+}
+
+<h1>Players Of The Day</h1>
+
+<p></p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Date Of Prediction
+            </th>
+            <th>
+                Day Of Prediction
+            </th>
+            <th>
+                Player
+            </th>
+            <th>
+                Real Cases#
+            </th>
+            <th>
+                Cases Of Prediction#
+            </th>
+            <th>
+                Difference From Real Cases#
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfPrediction)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DayOfPrediction)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PlayerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RealCasesNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CasesOfPrediction)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DifFromRealCases)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+

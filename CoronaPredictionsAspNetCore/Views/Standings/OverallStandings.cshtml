@@ -1,0 +1,58 @@
+﻿@model IEnumerable<CoronaPredictionsAspNetCore.Models.Standings>
+@{
+    ViewData["Title"] = "Overall Standings";
+}
+
+<h1>Overall Standings</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Position#
+            </th>
+            <th>
+                Predictions#
+            </th>
+            <th>
+                Player
+            </th>
+            <th>
+                Points
+            </th>
+            <th>
+                Closer Predictions#
+            </th>
+            <th>
+                Difference From Real Cases#
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PositionNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PredictionsNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PlayerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Points)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CloserPredictionsNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DifFromRealCases)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+

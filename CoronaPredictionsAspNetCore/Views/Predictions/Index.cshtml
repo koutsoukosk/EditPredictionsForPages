@@ -1,0 +1,73 @@
+﻿@model ReflectionIT.Mvc.Paging.PagingList<CoronaPredictionsAspNetCore.Models.Predictions>
+@using ReflectionIT.Mvc.Paging
+@addTagHelper *,ReflectionIT.Mvc.Paging
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<nav aria-label="Pagination Navigation">
+    @await this.Component.InvokeAsync("Pager", new { pagingList = this.Model })
+</nav>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+@using (Html.BeginForm("Index", "Predictions", FormMethod.Post))
+{
+    <p></p>
+    <div>
+        Search by Date Of Prediction: @Html.TextBox("searchDate")
+        <input id="Submit1" type="submit" value="Filter" />
+    </div>
+}
+<p></p>
+<link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DayOfPrediction)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfPrediction)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PlayerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CasesOfPrediction)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DayOfPrediction)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfPrediction)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PlayerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CasesOfPrediction)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.PredictionID"><i class="fas fa-edit"></i> Edit </a>  
+                    <a asp-action="Details" asp-route-id="@item.PredictionID"><i class="fas fa-info"></i> Details </a> 
+                    <a asp-action="Delete" asp-route-id="@item.PredictionID"><i class="fas fa-trash-alt"></i> Delete </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<nav aria-label="Pagination Navigation">
+    <vc:pager paging-list="@Model" />
+</nav>
