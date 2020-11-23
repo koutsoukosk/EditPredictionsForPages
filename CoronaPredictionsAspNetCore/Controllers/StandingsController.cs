@@ -33,13 +33,17 @@ namespace CoronaPredictionsAspNetCore.Controllers
         List<Standings> populateStandings(List<Standings> standingsDynamically, IEnumerable<Predictions> allPredictions, IEnumerable<RealCases> allRealCases)
         {
             var SystemPoints = _repository.AllSystemPoints();
-            var maxIntSystemPoint = SystemPoints.OrderByDescending(x => x.LessOrEqualThanDif).First().LessOrEqualThanDif;
+            int maxIntSystemPoint = 0;
+            if (SystemPoints.Count>0) {
+                maxIntSystemPoint = SystemPoints.OrderByDescending(x => x.LessOrEqualThanDif).First().LessOrEqualThanDif;
+            } 
+           
             foreach (var realCase in allRealCases)
             {
-                var sth = _repository.BestPredictNoByDate().Where(b => b.DateOfPrediction == realCase.DateOfRealCases).ToList();
+                var sth = _repository.BestPredictNoByDate().Where(b => b.DateOfPrediction.Date == realCase.DateOfRealCases.Date).ToList();
                 if (sth.Count>0) {
-                    var bestPredByDate = _repository.BestPredictNoByDate().Where(b => b.DateOfPrediction == realCase.DateOfRealCases).Select(x=>x.CasesOfPrediction).ToList();
-                    var PredictionsBydate = _repository.PredictionsByDate(realCase.DateOfRealCases);
+                    var bestPredByDate = _repository.BestPredictNoByDate().Where(b => b.DateOfPrediction.Date == realCase.DateOfRealCases.Date).Select(x=>x.CasesOfPrediction).ToList();
+                    var PredictionsBydate = _repository.PredictionsByDate(realCase.DateOfRealCases.Date);
                     foreach (var predictionItem in PredictionsBydate)
                     {
                             foreach (var standingItem in standingsDynamically)

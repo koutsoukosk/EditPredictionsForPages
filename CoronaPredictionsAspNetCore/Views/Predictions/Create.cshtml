@@ -69,7 +69,9 @@
         if ($("#Select1 :selected").text()=="Select Player") {
             alert("Please select Player Name from list");
         }
-              
+          if ($("#Select1 :selected").text()=="") {
+            alert("Please insert a player to create the prediction");
+        }     
    return true;
     }
 

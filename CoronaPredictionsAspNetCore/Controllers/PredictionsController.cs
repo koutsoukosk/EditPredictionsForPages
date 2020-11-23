@@ -28,10 +28,16 @@ namespace CoronaPredictionsAspNetCore.Controllers
             var pageIndex = (page == 0) ? 1 : page;              
             var pageQuery = _context.Prediction.AsNoTracking().OrderBy(x => x.DateOfPrediction);
             if (searchDate != DateTime.MinValue) {
-                pageQuery = pageQuery.Where(c => c.DateOfPrediction == searchDate).OrderBy(x => x.DateOfPrediction);
+                pageQuery = pageQuery.Where(c => c.DateOfPrediction.Date == searchDate.Date).OrderBy(x => x.DateOfPrediction);
             }
-            var modelIndex = await PagingList.CreateAsync(pageQuery, _context.Players.Count(), pageIndex);
-            return View(modelIndex);
+            if (_context.Players.Count()>0) {
+                var modelIndex = await PagingList.CreateAsync(pageQuery, _context.Players.Count(), pageIndex);
+                return View(modelIndex);
+            } else {
+                var modelIndex = await PagingList.CreateAsync(pageQuery, 1, pageIndex);
+                return View(modelIndex);
+            }
+            
         }
        
         // GET: Predictions/Details/5
@@ -72,6 +78,13 @@ namespace CoronaPredictionsAspNetCore.Controllers
             model.CasesOfPrediction = 0;
             model.DateOfPrediction =  DateTime.Parse(DateTime.Now.ToString("dddd, dd MMMM yyyy"));
             model.DayOfPrediction = DateTime.Today.DayOfWeek;
+            if (list.Count()==0) {
+                list.Add(new User
+                {
+                    Key = "",
+                    Display = ""
+                });
+            }
             model.PlayersList = new SelectList(list, "Key", "Display");
             return View(model);
         }

@@ -20,15 +20,15 @@ namespace CoronaPredictionsAspNetCore.DataAccessLayer
             var bestPredNoDate = BestPredictNoByDate();
             var allPred = _context.Prediction.ToList();
             foreach (var bestPredItem in bestPredNoDate)
-            {
-                int realCasesByDate = _context.RealCasesEachDay.Where(x => x.DateOfRealCases == bestPredItem.DateOfPrediction).Select(y => y.RealCasesNo).FirstOrDefault();
-                foreach (var predItem in allPred.Where(x => x.DateOfPrediction == bestPredItem.DateOfPrediction))
+            {              
+                int realCasesByDate = _context.RealCasesEachDay.Where(x => x.DateOfRealCases.Date == bestPredItem.DateOfPrediction.Date).Select(y => y.RealCasesNo).FirstOrDefault();
+                foreach (var predItem in allPred.Where(x => x.DateOfPrediction.Date == bestPredItem.DateOfPrediction.Date))
                 {
                     if (predItem.CasesOfPrediction == bestPredItem.CasesOfPrediction)
                     {
                         PlayerOfDay bestPlayerInDay = new PlayerOfDay
                         {
-                            DateOfPrediction = predItem.DateOfPrediction,
+                            DateOfPrediction = predItem.DateOfPrediction.Date,
                             DayOfPrediction = predItem.DateOfPrediction.DayOfWeek,
                             PlayerName = predItem.PlayerName,
                             RealCasesNo = realCasesByDate,
@@ -53,21 +53,22 @@ namespace CoronaPredictionsAspNetCore.DataAccessLayer
             var realCasesList = _context.RealCasesEachDay.ToList();
             foreach (var realCaseItem in realCasesList)
             {
-                List<Predictions> PredByDate = predictionList.Where(x => x.DateOfPrediction == realCaseItem.DateOfRealCases).ToList();
+               
+                List<Predictions> PredByDate = predictionList.Where(x => x.DateOfPrediction.Date == realCaseItem.DateOfRealCases.Date).ToList();
                 if (PredByDate.Count>0) { 
                 int difByDate = PredByDate.Max(dif=>dif.CasesOfPrediction);
                 foreach (var predItem in predictionList)
                 {
-                    if (realCaseItem.DateOfRealCases== predItem.DateOfPrediction) {
+                    if (realCaseItem.DateOfRealCases.Date == predItem.DateOfPrediction.Date) {
                         if (Math.Abs(predItem.CasesOfPrediction- realCaseItem.RealCasesNo)< difByDate)
                         {
                             difByDate = Math.Abs(predItem.CasesOfPrediction - realCaseItem.RealCasesNo);
                         }
                     }
                 }
-                        Predictions topPredMinus = new Predictions() { CasesOfPrediction = realCaseItem.RealCasesNo- difByDate, DateOfPrediction = realCaseItem.DateOfRealCases };
+                        Predictions topPredMinus = new Predictions() { CasesOfPrediction = realCaseItem.RealCasesNo- difByDate, DateOfPrediction = realCaseItem.DateOfRealCases.Date };
                     bestPredByDate.Add(topPredMinus);
-                    Predictions topPredPlus = new Predictions() { CasesOfPrediction = realCaseItem.RealCasesNo + difByDate, DateOfPrediction = realCaseItem.DateOfRealCases };
+                    Predictions topPredPlus = new Predictions() { CasesOfPrediction = realCaseItem.RealCasesNo + difByDate, DateOfPrediction = realCaseItem.DateOfRealCases.Date };
                     bestPredByDate.Add(topPredPlus);
                                  
                 };
@@ -109,7 +110,7 @@ namespace CoronaPredictionsAspNetCore.DataAccessLayer
 
         public List<Predictions> PredictionsByDate(DateTime realCaseDate)
         {
-            return _context.Prediction.Where(x => x.DateOfPrediction == realCaseDate).ToList();
+            return _context.Prediction.Where(x => x.DateOfPrediction.Date == realCaseDate.Date).ToList();
         }
     }
 }

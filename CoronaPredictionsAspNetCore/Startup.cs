@@ -29,8 +29,8 @@ namespace CoronaPredictionsAspNetCore
         {
             services.AddControllersWithViews();
             services.AddScoped<IPredictionsRepo, PredictionsRepo>();
-            services.AddDbContext<PredictCoronaCasesDBContext>(options=>options.UseSqlServer(Configuration.GetConnectionString("CoronaPredictionsDBConnStr")));
-            services.AddPaging();
+            services.AddDbContext<PredictCoronaCasesDBContext>(options=>options.UseSqlServer(Configuration.GetConnectionString("CoronaPredictionsAzureDBConStr")));
+            //services.AddPaging();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,6 +51,7 @@ namespace CoronaPredictionsAspNetCore
 
             app.UseRouting();
 
+           // app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
