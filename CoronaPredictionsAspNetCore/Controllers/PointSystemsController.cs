@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CoronaPredictionsAspNetCore.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CoronaPredictionsAspNetCore.Controllers
 {
+    [Authorize]
     public class PointSystemsController : Controller
     {
         private readonly PredictCoronaCasesDBContext _context;

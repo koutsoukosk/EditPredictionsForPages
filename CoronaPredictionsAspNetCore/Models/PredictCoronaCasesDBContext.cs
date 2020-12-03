@@ -17,5 +17,6 @@ namespace CoronaPredictionsAspNetCore.Models
         
         }
         public DbSet<CoronaPredictionsAspNetCore.Models.PointSystem> PointSystem { get; set; }
+        public DbSet<CoronaPredictionsAspNetCore.Models.RegisterPlayer> RegisterPlayer { get; set; }
     }
 }

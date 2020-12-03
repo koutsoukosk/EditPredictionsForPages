@@ -4,10 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using CoronaPredictionsAspNetCore.DataAccessLayer;
 using CoronaPredictionsAspNetCore.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoronaPredictionsAspNetCore.Controllers
 {
+    [Authorize]
     [Route("[controller]")]
     [ApiController]
     public class PlayerOfDayController : Controller

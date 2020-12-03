@@ -8,10 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using CoronaPredictionsAspNetCore.Models;
 using CoronaPredictionsAspNetCore.DataAccessLayer;
 using ReflectionIT.Mvc.Paging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CoronaPredictionsAspNetCore.Controllers
 {
- 
+    [Authorize]
     public class PredictionsController : Controller
     {
         private readonly PredictCoronaCasesDBContext _context;
