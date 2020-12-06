@@ -16,29 +16,50 @@ namespace CoronaPredictionsAspNetCore.Controllers
     public class PredictionsController : Controller
     {
         private readonly PredictCoronaCasesDBContext _context;
-     
+        private readonly IPredictionsRepo _repository;
 
-        public PredictionsController(PredictCoronaCasesDBContext context)
+        public PredictionsController(PredictCoronaCasesDBContext context, IPredictionsRepo repository)
         {
-            _context = context; 
+            _context = context;
+            _repository = repository;
         }
        
         // GET: Predictions
         public async Task<IActionResult> Index( DateTime searchDate, int page)
         {
+           
             var pageIndex = (page == 0) ? 1 : page;              
-            var pageQuery = _context.Prediction.AsNoTracking().OrderBy(x => x.DateOfPrediction);
+            var pageQuery =  await _context.Prediction.OrderBy(x => x.DateOfPrediction).ToListAsync();
             if (searchDate != DateTime.MinValue) {
-                pageQuery = pageQuery.Where(c => c.DateOfPrediction.Date == searchDate.Date).OrderBy(x => x.DateOfPrediction);
+                pageQuery = pageQuery.Where(c => c.DateOfPrediction.Date == searchDate.Date).OrderBy(x => x.DateOfPrediction).ToList();
             }
-            if (_context.Players.Count()>0) {
-                var modelIndex = await PagingList.CreateAsync(pageQuery, _context.Players.Count(), pageIndex);
-                return View(modelIndex);
-            } else {
-                var modelIndex = await PagingList.CreateAsync(pageQuery, 1, pageIndex);
-                return View(modelIndex);
+            //List<Predictions> newListOfPreds = new List<Predictions>();
+            foreach (var item in pageQuery)
+            {
+                item.AuthenticatedUserName = _repository.authenticatedPlayerNameByUserEmail(User.Identity.Name);
+                item.AuthenticatedUserEmail = User.Identity.Name;
+                //Predictions newPred = new Predictions
+                //{
+                //    PredictionID = item.PredictionID,
+                //    PlayerName = item.PlayerName,
+                //    PlayersList = item.PlayersList,
+                //    DateOfPrediction = item.DateOfPrediction,
+                //    DayOfPrediction = item.DayOfPrediction,
+                //    CasesOfPrediction = item.CasesOfPrediction,
+                //    AuthenticatedUserName = _repository.authenticatedPlayerNameByUserEmail(User.Identity.Name),
+                //    AuthenticatedUserEmail = User.Identity.Name
+                //};
+                //newListOfPreds.Add(newPred);
             }
-            
+            //var retListOfPreds =  newListOfPreds.AsNoTracking().OrderBy(x=>x.DateOfPrediction);
+            //if (_context.Players.Count()>0) {
+            //    var modelIndex = await PagingList.CreateAsync(pageQuery, _context.Players.Count(), pageIndex);
+            //    return View(modelIndex);
+            //} else {
+            //    var modelIndex = await PagingList.CreateAsync(pageQuery, 1, pageIndex);
+            //    return View(modelIndex);
+            //}
+            return View(pageQuery);
         }
        
         // GET: Predictions/Details/5

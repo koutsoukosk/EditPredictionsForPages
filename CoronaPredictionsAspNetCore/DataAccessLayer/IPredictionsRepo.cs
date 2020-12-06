@@ -15,5 +15,7 @@ namespace CoronaPredictionsAspNetCore.DataAccessLayer
         List<Predictions> BestPredictNoByDate();
         List<Predictions> PredictionsByDate(DateTime realCaseDate);
         List<PlayerOfDay> BestPlayersByDate();
+        List<Player> GetAllPlayers();
+        string authenticatedPlayerNameByUserEmail(string email);
     }
 }

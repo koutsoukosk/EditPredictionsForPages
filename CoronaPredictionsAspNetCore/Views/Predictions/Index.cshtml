@@ -1,15 +1,15 @@
-﻿@model ReflectionIT.Mvc.Paging.PagingList<CoronaPredictionsAspNetCore.Models.Predictions>
-@using ReflectionIT.Mvc.Paging
-@addTagHelper *,ReflectionIT.Mvc.Paging
+﻿@model IEnumerable<CoronaPredictionsAspNetCore.Models.Predictions>
+@*@using ReflectionIT.Mvc.Paging
+@addTagHelper *,ReflectionIT.Mvc.Paging*@
 @{
     ViewData["Title"] = "Index";
 }
 
 <h1>Index</h1>
 
-<nav aria-label="Pagination Navigation">
+@*<nav aria-label="Pagination Navigation">
     @await this.Component.InvokeAsync("Pager", new { pagingList = this.Model })
-</nav>
+</nav>*@
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -59,15 +59,19 @@
                     @Html.DisplayFor(modelItem => item.CasesOfPrediction)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.PredictionID"><i class="fas fa-edit"></i> Edit </a>  
-                    <a asp-action="Details" asp-route-id="@item.PredictionID"><i class="fas fa-info"></i> Details </a> 
-                    <a asp-action="Delete" asp-route-id="@item.PredictionID"><i class="fas fa-trash-alt"></i> Delete </a>
+                    @if (User.Identity.IsAuthenticated && item.AuthenticatedUserName == item.PlayerName)
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.PredictionID"><i class="fas fa-edit"></i> Edit </a>
+                        <a asp-action="Delete" asp-route-id="@item.PredictionID"><i class="fas fa-trash-alt"></i> Delete </a>
+
+                    }
+                    @*<a asp-action="Details" asp-route-id="@item.PredictionID"><i class="fas fa-info"></i> Details </a>*@
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
-<nav aria-label="Pagination Navigation">
+@*<nav aria-label="Pagination Navigation">
     <vc:pager paging-list="@Model" />
-</nav>
+</nav>*@

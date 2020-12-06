@@ -30,6 +30,12 @@ namespace CoronaPredictionsAspNetCore.Models
         public int CasesOfPrediction { get; set; }
         [NotMapped]
         public SelectList PlayersList { get; set; }
+        [NotMapped]
+        [MaxLength(50)]
+        public string AuthenticatedUserName { get; set; }
+        [NotMapped]
+        [MaxLength(50)]
+        public string AuthenticatedUserEmail { get; set; }
     }
     public class User
     {

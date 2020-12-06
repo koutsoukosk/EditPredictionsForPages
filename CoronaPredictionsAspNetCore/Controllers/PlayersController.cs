@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CoronaPredictionsAspNetCore.Models;
 using Microsoft.AspNetCore.Authorization;
+using CoronaPredictionsAspNetCore.DataAccessLayer;
 
 namespace CoronaPredictionsAspNetCore.Controllers
 {
@@ -14,16 +15,24 @@ namespace CoronaPredictionsAspNetCore.Controllers
     public class PlayersController : Controller
     {
         private readonly PredictCoronaCasesDBContext _context;
-
-        public PlayersController(PredictCoronaCasesDBContext context)
+        private readonly IPredictionsRepo _repository;
+        public PlayersController(PredictCoronaCasesDBContext context, IPredictionsRepo repository)
         {
             _context = context;
+            _repository = repository;
         }
-
+          
         // GET: Players
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Players.OrderBy(y => y.Name).ToListAsync());
+            var returnPlayersWithAuthenticatedUser= await _context.Players.OrderBy(y => y.Name).ToListAsync();
+            foreach (var item in returnPlayersWithAuthenticatedUser)
+            {
+                item.AuthenticatedUserName = _repository.authenticatedPlayerNameByUserEmail(User.Identity.Name);
+                item.AuthenticatedUserEmail = User.Identity.Name;
+            }
+            return View(returnPlayersWithAuthenticatedUser);
+            //return View(await _context.Players.OrderBy(y => y.Name).ToListAsync());
         }
 
         // GET: Players/Details/5

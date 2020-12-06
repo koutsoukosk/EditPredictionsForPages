@@ -9,10 +9,12 @@ namespace CoronaPredictionsAspNetCore.DataAccessLayer
     public class PredictionsRepo : IPredictionsRepo
     {
         private readonly PredictCoronaCasesDBContext _context;
+        private readonly AuthDbContext _AuthContext;
 
-        public PredictionsRepo(PredictCoronaCasesDBContext context)
+        public PredictionsRepo(PredictCoronaCasesDBContext context, AuthDbContext authContext)
         {
             _context = context;
+            _AuthContext = authContext;
         }
         public List<PlayerOfDay> BestPlayersByDate()
         {
@@ -89,6 +91,7 @@ namespace CoronaPredictionsAspNetCore.DataAccessLayer
         public List<Standings> playersInStandings()
         {
             List<string> dbPlayers = new List<string>();
+            //var authanticatedPlayers= _AuthContext.Users.Select(x => x.FullName).ToList();
             var sth = _context.Players.Select(x => x.Name).ToList();
             dbPlayers.AddRange(sth);
             int PositionNum = 0;
@@ -111,6 +114,24 @@ namespace CoronaPredictionsAspNetCore.DataAccessLayer
         public List<Predictions> PredictionsByDate(DateTime realCaseDate)
         {
             return _context.Prediction.Where(x => x.DateOfPrediction.Date == realCaseDate.Date).ToList();
+        }
+
+        public string authenticatedPlayerNameByUserEmail(string email)
+        {
+            var fullNameByEmail = _AuthContext.Users.ToList();
+            foreach (var item in fullNameByEmail)
+            {
+                if (item.UserName==email)
+                {
+                    return item.FullName;
+                }
+            }
+            return null;
+        }
+
+        public List<Player> GetAllPlayers()
+        {
+            return _context.Players.ToList();
         }
     }
 }

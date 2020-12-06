@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,5 +21,11 @@ namespace CoronaPredictionsAspNetCore.Models
         [DisplayName("Work Description")]
         [MaxLength(100)]
         public string WorkDescription { get; set; }
+        [NotMapped]
+        [MaxLength(50)]
+        public string AuthenticatedUserName { get; set; }
+        [NotMapped]
+        [MaxLength(50)]
+        public string AuthenticatedUserEmail { get; set; }
     }
 }
