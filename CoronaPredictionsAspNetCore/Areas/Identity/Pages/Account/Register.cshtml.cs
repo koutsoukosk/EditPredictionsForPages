@@ -24,6 +24,7 @@ namespace CoronaPredictionsAspNetCore.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+      
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
