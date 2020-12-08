@@ -33,32 +33,13 @@ namespace CoronaPredictionsAspNetCore.Controllers
             if (searchDate != DateTime.MinValue) {
                 pageQuery = pageQuery.Where(c => c.DateOfPrediction.Date == searchDate.Date).OrderBy(x => x.DateOfPrediction).ToList();
             }
-            //List<Predictions> newListOfPreds = new List<Predictions>();
+           
             foreach (var item in pageQuery)
             {
                 item.AuthenticatedUserName = _repository.authenticatedPlayerNameByUserEmail(User.Identity.Name);
                 item.AuthenticatedUserEmail = User.Identity.Name;
-                //Predictions newPred = new Predictions
-                //{
-                //    PredictionID = item.PredictionID,
-                //    PlayerName = item.PlayerName,
-                //    PlayersList = item.PlayersList,
-                //    DateOfPrediction = item.DateOfPrediction,
-                //    DayOfPrediction = item.DayOfPrediction,
-                //    CasesOfPrediction = item.CasesOfPrediction,
-                //    AuthenticatedUserName = _repository.authenticatedPlayerNameByUserEmail(User.Identity.Name),
-                //    AuthenticatedUserEmail = User.Identity.Name
-                //};
-                //newListOfPreds.Add(newPred);
             }
-            //var retListOfPreds =  newListOfPreds.AsNoTracking().OrderBy(x=>x.DateOfPrediction);
-            //if (_context.Players.Count()>0) {
-            //    var modelIndex = await PagingList.CreateAsync(pageQuery, _context.Players.Count(), pageIndex);
-            //    return View(modelIndex);
-            //} else {
-            //    var modelIndex = await PagingList.CreateAsync(pageQuery, 1, pageIndex);
-            //    return View(modelIndex);
-            //}
+
             return View(pageQuery);
         }
        
@@ -87,14 +68,24 @@ namespace CoronaPredictionsAspNetCore.Controllers
         public IActionResult Create()
         {
             var list = new List<User>();
-            var playerNames =  _context.Players.OrderBy(y=>y.Name).Select(x=>x.Name).ToList();
-            foreach (var item in playerNames)
+            if (User.IsInRole("Admin"))
             {
+                var playerNames = _context.Players.OrderBy(y => y.Name).Select(x => x.Name).ToList();
+                foreach (var item in playerNames)
+                {
+                    list.Add(new User
+                    {
+                        Key = item,
+                        Display = item
+                    });
+                }
+            }
+            else {
                 list.Add(new User
                 {
-                    Key = item,
-                    Display = item
-                });
+                    Key = _repository.authenticatedPlayerNameByUserEmail(User.Identity.Name),
+                    Display = _repository.authenticatedPlayerNameByUserEmail(User.Identity.Name)
+            });
             }
             var model = new Predictions();
             model.CasesOfPrediction = 0;
@@ -125,7 +116,18 @@ namespace CoronaPredictionsAspNetCore.Controllers
                 if (ModelState.IsValid)
                 {
                     _context.Add(predictions);
-                    await _context.SaveChangesAsync();
+                    try
+                    {
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        if (ex.InnerException.Message.Contains("IndexPredictionDate"))
+                        {
+                            return View("UniquePredictionDate", predictions);
+                        }
+
+                    }
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -161,15 +163,28 @@ namespace CoronaPredictionsAspNetCore.Controllers
                 return NotFound();
             }
             var list = new List<User>();
-            var playerNames = _context.Players.OrderBy(y => y.Name).Select(x => x.Name).ToList();
-            foreach (var item in playerNames)
+         
+            if (User.IsInRole("Admin"))
+            {
+                var playerNames = _context.Players.OrderBy(y => y.Name).Select(x => x.Name).ToList();
+                foreach (var item in playerNames)
+                {
+                    list.Add(new User
+                    {
+                        Key = item,
+                        Display = item
+                    });
+                }
+            }
+            else
             {
                 list.Add(new User
                 {
-                    Key = item,
-                    Display = item
+                    Key = _repository.authenticatedPlayerNameByUserEmail(User.Identity.Name),
+                    Display = _repository.authenticatedPlayerNameByUserEmail(User.Identity.Name)
                 });
             }
+         
             predictions.PlayersList = new SelectList(list, "Key", "Display");
             return View(predictions);
         }
@@ -190,11 +205,21 @@ namespace CoronaPredictionsAspNetCore.Controllers
             if (DateOfRealCase == DayOfRealCase)
             {
                 if (ModelState.IsValid)
-                {
+                {                   
                     try
                     {
                         _context.Update(predictions);
-                        await _context.SaveChangesAsync();
+                        try
+                        {
+                            await _context.SaveChangesAsync();
+                        }
+                        catch (Exception ex)
+                        {
+                            if (ex.InnerException.Message.Contains("IndexPredictionDate"))
+                            {
+                                return View("UniquePredictionDate", predictions);
+                            }
+                        }
                     }
                     catch (DbUpdateConcurrencyException)
                     {

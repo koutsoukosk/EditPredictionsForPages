@@ -59,7 +59,7 @@
                     @Html.DisplayFor(modelItem => item.CasesOfPrediction)
                 </td>
                 <td>
-                    @if (User.Identity.IsAuthenticated && item.AuthenticatedUserName == item.PlayerName)
+                    @if (User.Identity.IsAuthenticated && item.AuthenticatedUserName == item.PlayerName || User.IsInRole("Admin"))
                     {
                         <a asp-action="Edit" asp-route-id="@item.PredictionID"><i class="fas fa-edit"></i> Edit </a>
                         <a asp-action="Delete" asp-route-id="@item.PredictionID"><i class="fas fa-trash-alt"></i> Delete </a>

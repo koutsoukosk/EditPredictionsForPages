@@ -37,8 +37,7 @@ namespace CoronaPredictionsAspNetCore.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
         }
-
-        [BindProperty]
+         [BindProperty]
         public InputModel Input { get; set; }
 
         public string ReturnUrl { get; set; }

@@ -1,0 +1,17 @@
+﻿@model Predictions
+
+@{
+    ViewBag.Title = "Error Prediction";
+}
+
+<div class="alert alert-danger mt-1 mb-1">
+    <h4>Error Prediction</h4>
+    <hr />
+    <h5>
+        Prediction of Player: @Model.PlayerName for the date @Model.DateOfPrediction.ToShortDateString() has been inserted
+    </h5>
+</div>
+
+<a asp-action="Index" asp-controller="Predictions" class="btn btn-outline-success">
+    Back to the predictions
+</a>
