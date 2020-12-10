@@ -27,6 +27,7 @@ namespace CoronaPredictionsAspNetCore.Models
         public string PlayerName { get; set; }
         [Required]
         [DisplayName("Cases Of Prediction")]
+        [Range(0, 11000000)]
         public int CasesOfPrediction { get; set; }
         [NotMapped]
         public SelectList PlayersList { get; set; }

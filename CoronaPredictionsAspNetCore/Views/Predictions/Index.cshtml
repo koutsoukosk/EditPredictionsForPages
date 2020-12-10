@@ -61,8 +61,8 @@
                 <td>
                     @if (User.Identity.IsAuthenticated && item.AuthenticatedUserName == item.PlayerName || User.IsInRole("Admin"))
                     {
-                        <a asp-action="Edit" asp-route-id="@item.PredictionID"><i class="fas fa-edit"></i> Edit </a>
-                        <a asp-action="Delete" asp-route-id="@item.PredictionID"><i class="fas fa-trash-alt"></i> Delete </a>
+                        <a asp-action="Edit" asp-route-id="@item.PredictionID" class="m-1"><i class="fas fa-edit"></i> Edit </a>
+                        <a asp-action="Delete" asp-route-id="@item.PredictionID" class="m-1"><i class="fas fa-trash-alt"></i> Delete </a>
 
                     }
                     @*<a asp-action="Details" asp-route-id="@item.PredictionID"><i class="fas fa-info"></i> Details </a>*@

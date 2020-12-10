@@ -21,6 +21,7 @@ namespace CoronaPredictionsAspNetCore.Models
         public DateTime DateOfRealCases { get; set; }
         [Required]
         [DisplayName("Real Cases#")]
+        [Range(0, 11000000)]
         public int RealCasesNo { get; set; }
     }
 }

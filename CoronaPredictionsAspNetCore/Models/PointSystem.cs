@@ -18,9 +18,11 @@ namespace CoronaPredictionsAspNetCore.Models
         public string CategoryName { get; set; }
         [Required]
         [DisplayName("More Or Equal Than Dif")]
+        [Range(0, 11000000)]
         public int MoreOrEqualThanDif { get; set; }
         [Required]
         [DisplayName("Less Or Equal Than Dif")]
+        [Range(0, 11000000)]
         public int LessOrEqualThanDif { get; set; }
         [Required]
         [DisplayName("Category Points")]
