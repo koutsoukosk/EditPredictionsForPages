@@ -29,6 +29,10 @@ namespace CoronaPredictionsAspNetCore
         {
             services.AddControllersWithViews();
             services.AddScoped<IPredictionsRepo, PredictionsRepo>();
+            services.AddScoped<IRealCasesRepo, RealCasesRepo>();
+            services.AddScoped<IStandingsRepo, StandingsRepo>();
+            services.AddScoped<ISystemPointsRepo, SystemPointsRepo>();
+            services.AddScoped<IPlayersRepo, PlayersRepo>();
             services.AddDbContext<PredictCoronaCasesDBContext>(options=>options.UseSqlServer(Configuration.GetConnectionString("CoronaPredictionsDBConnStr")));
             services.AddRazorPages();
         }

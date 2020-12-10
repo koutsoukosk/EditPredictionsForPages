@@ -16,9 +16,9 @@ namespace CoronaPredictionsAspNetCore.Controllers
     public class PredictionsController : Controller
     {
         private readonly PredictCoronaCasesDBContext _context;
-        private readonly IPredictionsRepo _repository;
+        private readonly IPlayersRepo _repository;
 
-        public PredictionsController(PredictCoronaCasesDBContext context, IPredictionsRepo repository)
+        public PredictionsController(PredictCoronaCasesDBContext context, IPlayersRepo repository)
         {
             _context = context;
             _repository = repository;

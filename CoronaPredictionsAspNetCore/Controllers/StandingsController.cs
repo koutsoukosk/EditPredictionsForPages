@@ -15,9 +15,16 @@ namespace CoronaPredictionsAspNetCore.Controllers
     public class StandingsController :Controller
     {
         private readonly IPredictionsRepo _repository;
-        public StandingsController(IPredictionsRepo repository)
+        private readonly IStandingsRepo _StandingsRepository;
+        private readonly IRealCasesRepo _RealCasesRepository;
+        private readonly ISystemPointsRepo _SystemPointsRepository;
+        public StandingsController(IPredictionsRepo repository, IStandingsRepo standingsRepo, 
+            IRealCasesRepo realCasesRepo, ISystemPointsRepo systemPointsRepo )
         {
             _repository = repository;
+            _StandingsRepository = standingsRepo;
+            _RealCasesRepository = realCasesRepo;
+            _SystemPointsRepository = systemPointsRepo;
         }
         // GET: Standings
         [HttpGet]
@@ -25,16 +32,16 @@ namespace CoronaPredictionsAspNetCore.Controllers
         {
             List<Standings> standings = new List<Standings>();
             List<Standings> standingsDynamically = new List<Standings>();
-            standingsDynamically.AddRange(_repository.playersInStandings());
+            standingsDynamically.AddRange(_StandingsRepository.playersInStandings());
             var allPredictions = _repository.GetAllPredictions().OrderBy(y => y.DateOfPrediction);
-            var allRealCases = _repository.GetAllRealCases().OrderBy(x=>x.DateOfRealCases);
+            var allRealCases = _RealCasesRepository.GetAllRealCases().OrderBy(x=>x.DateOfRealCases);
 
             var viewStand = populateStandings(standingsDynamically, allPredictions, allRealCases);
             return View(viewStand);
         }
         List<Standings> populateStandings(List<Standings> standingsDynamically, IEnumerable<Predictions> allPredictions, IEnumerable<RealCases> allRealCases)
         {
-            var SystemPoints = _repository.AllSystemPoints();
+            var SystemPoints = _SystemPointsRepository.AllSystemPoints();
             int maxIntSystemPoint = 0;
             if (SystemPoints.Count>0) {
                 maxIntSystemPoint = SystemPoints.OrderByDescending(x => x.LessOrEqualThanDif).First().LessOrEqualThanDif;

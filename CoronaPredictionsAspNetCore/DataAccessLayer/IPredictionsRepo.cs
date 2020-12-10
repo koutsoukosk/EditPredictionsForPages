@@ -9,13 +9,13 @@ namespace CoronaPredictionsAspNetCore.DataAccessLayer
     public interface IPredictionsRepo
     {
         IEnumerable<Predictions> GetAllPredictions();
-        IEnumerable<RealCases> GetAllRealCases();
-        List<Standings> playersInStandings();
-        List<PointSystem> AllSystemPoints();
+        //IEnumerable<RealCases> GetAllRealCases();
+        //List<Standings> playersInStandings();
+        //List<PointSystem> AllSystemPoints();
         List<Predictions> BestPredictNoByDate();
         List<Predictions> PredictionsByDate(DateTime realCaseDate);
         List<PlayerOfDay> BestPlayersByDate();
-        List<Player> GetAllPlayers();
-        string authenticatedPlayerNameByUserEmail(string email);
+        //List<Player> GetAllPlayers();
+        //string authenticatedPlayerNameByUserEmail(string email);
     }
 }

@@ -43,10 +43,10 @@ namespace CoronaPredictionsAspNetCore.DataAccessLayer
             }
             return bestPlayerByDate;
         }
-        public List<PointSystem> AllSystemPoints()
-        {
-            return _context.PointSystem.ToList();
-        }
+        //public List<PointSystem> AllSystemPoints()
+        //{
+        //    return _context.PointSystem.ToList();
+        //}
 
             public List<Predictions> BestPredictNoByDate()
         {
@@ -83,55 +83,54 @@ namespace CoronaPredictionsAspNetCore.DataAccessLayer
             return _context.Prediction.ToList();
         }
 
-        public IEnumerable<RealCases> GetAllRealCases()
-        {
-            return _context.RealCasesEachDay.ToList();
-        }
+        //public IEnumerable<RealCases> GetAllRealCases()
+        //{
+        //    return _context.RealCasesEachDay.ToList();
+        //}
 
-        public List<Standings> playersInStandings()
-        {
-            List<string> dbPlayers = new List<string>();
-            //var authanticatedPlayers= _AuthContext.Users.Select(x => x.FullName).ToList();
-            var sth = _context.Players.Select(x => x.Name).ToList();
-            dbPlayers.AddRange(sth);
-            int PositionNum = 0;
-            List<Standings> playersStandings = new List<Standings>();
-            foreach (string item in dbPlayers)
-            {
-                playersStandings.Add(new Standings()
-                {
-                    PositionNo = ++PositionNum,
-                    PredictionsNo = 0,
-                    PlayerName = item,
-                    Points=0,
-                    CloserPredictionsNo = 0,
-                    DifFromRealCases = 0
-                });
-            }
-            return playersStandings;
-        }
+        //public List<Standings> playersInStandings()
+        //{
+        //    List<string> dbPlayers = new List<string>();
+        //    var sth = _context.Players.Select(x => x.Name).ToList();
+        //    dbPlayers.AddRange(sth);
+        //    int PositionNum = 0;
+        //    List<Standings> playersStandings = new List<Standings>();
+        //    foreach (string item in dbPlayers)
+        //    {
+        //        playersStandings.Add(new Standings()
+        //        {
+        //            PositionNo = ++PositionNum,
+        //            PredictionsNo = 0,
+        //            PlayerName = item,
+        //            Points=0,
+        //            CloserPredictionsNo = 0,
+        //            DifFromRealCases = 0
+        //        });
+        //    }
+        //    return playersStandings;
+        //}
 
         public List<Predictions> PredictionsByDate(DateTime realCaseDate)
         {
             return _context.Prediction.Where(x => x.DateOfPrediction.Date == realCaseDate.Date).ToList();
         }
 
-        public string authenticatedPlayerNameByUserEmail(string email)
-        {
-            var fullNameByEmail = _AuthContext.Users.ToList();
-            foreach (var item in fullNameByEmail)
-            {
-                if (item.UserName==email)
-                {
-                    return item.FullName;
-                }
-            }
-            return null;
-        }
+        //public string authenticatedPlayerNameByUserEmail(string email)
+        //{
+        //    var fullNameByEmail = _AuthContext.Users.ToList();
+        //    foreach (var item in fullNameByEmail)
+        //    {
+        //        if (item.UserName==email)
+        //        {
+        //            return item.FullName;
+        //        }
+        //    }
+        //    return null;
+        //}
 
-        public List<Player> GetAllPlayers()
-        {
-            return _context.Players.ToList();
-        }
+        //public List<Player> GetAllPlayers()
+        //{
+        //    return _context.Players.ToList();
+        //}
     }
 }
