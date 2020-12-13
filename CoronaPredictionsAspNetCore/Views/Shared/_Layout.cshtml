@@ -11,6 +11,9 @@
     <link href="@Url.Content("~/Scripts/jquery-ui.min.css")" rel="stylesheet" type="text/css" />
     <link href="~/lib/font-awesome/css/fontawesome.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
 </head>
 <body>
     <header>
@@ -26,8 +29,6 @@
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </li>*@
-
-
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Players" asp-action="Index">
                                 <i class="fas fa-user"></i> Players
@@ -43,7 +44,6 @@
                                 <i class="fas fa-clinic-medical"></i> Real Cases
                             </a>
                         </li>
-
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Predictions" asp-action="Index">
                                 <i class="fas fa-balance-scale"></i> Predictions
