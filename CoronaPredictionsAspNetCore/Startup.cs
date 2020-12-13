@@ -7,6 +7,7 @@ using CoronaPredictionsAspNetCore.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,6 +35,7 @@ namespace CoronaPredictionsAspNetCore
             services.AddScoped<ISystemPointsRepo, SystemPointsRepo>();
             services.AddScoped<IPlayersRepo, PlayersRepo>();
             services.AddDbContext<PredictCoronaCasesDBContext>(options=>options.UseSqlServer(Configuration.GetConnectionString("CoronaPredictionsDBConnStr")));
+           
             services.AddRazorPages();
         }
 

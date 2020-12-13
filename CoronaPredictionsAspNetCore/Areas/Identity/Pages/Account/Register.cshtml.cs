@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 
@@ -24,7 +25,6 @@ namespace CoronaPredictionsAspNetCore.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-      
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
@@ -54,6 +54,7 @@ namespace CoronaPredictionsAspNetCore.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
+            [PageRemote(PageHandler = "IsEmailInUse", HttpMethod ="get", ErrorMessage = "Email is already in use")]
             public string Email { get; set; }
 
             [Required]
@@ -76,6 +77,21 @@ namespace CoronaPredictionsAspNetCore.Areas.Identity.Pages.Account
             }
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+        }
+
+        [AcceptVerbs("Get", "Post")]
+        [AllowAnonymous]
+        public JsonResult OnGetIsEmailInUse(InputModel Input)
+        {
+            var user =  _userManager.FindByEmailAsync(Input.Email);
+            if (user.Result == null)
+            {
+                return new JsonResult(true);
+            }
+            else
+            {
+                return new JsonResult($"Email { Input.Email} is already in use");
+            }
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
