@@ -27,7 +27,7 @@ namespace CoronaPredictionsAspNetCore.Models
         public string PlayerName { get; set; }
         [Required]
         [DisplayName("Cases Of Prediction")]
-        [Range(0, 11000000)]
+        [Range(0, 11000000, ErrorMessage = "Please enter a number greater than or equal to 0.")]
         public int CasesOfPrediction { get; set; }
         [NotMapped]
         public SelectList PlayersList { get; set; }

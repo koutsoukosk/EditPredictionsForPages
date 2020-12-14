@@ -56,7 +56,8 @@ namespace CoronaPredictionsAspNetCore.Controllers
         // GET: Players/Create
         public IActionResult Create()
         {
-            return View();
+            Player player = new Player { Name= _repository.authenticatedPlayerNameByUserEmail(User.Identity.Name) };
+            return View(player);
         }
 
         // POST: Players/Create
