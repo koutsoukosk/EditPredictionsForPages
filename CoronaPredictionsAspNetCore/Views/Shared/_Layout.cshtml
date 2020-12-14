@@ -34,8 +34,7 @@
                         @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Administration" asp-action="ListRoles">
-                                    @*<i class="fas fa-user"></i>*@ 
+                                <a class="nav-link text-danger" asp-area="" asp-controller="Administration" asp-action="ListRoles">
                                     Manage Roles
                                 </a>
                             </li>
