@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CoronaPredictionsAspNetCore.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin,User")]
     [Route("[controller]")]
     [ApiController]
     public class PlayerOfDayController : Controller

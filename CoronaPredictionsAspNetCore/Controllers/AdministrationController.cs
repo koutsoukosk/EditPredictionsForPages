@@ -20,6 +20,119 @@ namespace CoronaPredictionsAspNetCore.Controllers
             this._roleManager = roleManager;
             this._userManager = userManager;
         }
+        [HttpPost]
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = $"User with Id = {id} cannot be found";
+                return View("NotFound");
+            }
+            else
+            {
+                var result = await _userManager.DeleteAsync(user);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("ListUsers");
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+                return View("ListUsers");
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteRole(string id)
+        {
+            var user = await _roleManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = $"Role with Id = {id} cannot be found";
+                return View("NotFound");
+            }
+            else
+            {
+                var result = await _roleManager.DeleteAsync(user);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("ListRoles");
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+                return View("ListRoles");
+            }
+        }
+        [HttpGet]
+        public async Task<IActionResult> EditUser(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = $"User with Id = {id} cannot be found";
+                return View("NotFound");
+            }
+            var userClaims = await _userManager.GetClaimsAsync(user);
+            var userRoles = await _userManager.GetRolesAsync(user);
+
+            var model = new EditUserModel
+            {
+                Id = user.Id,
+                Email = user.Email,
+                UserName = user.UserName,
+                FullName = user.FullName,
+                Claims=userClaims.Select(x=>x.Value).ToList(),
+                Roles=userRoles
+            };
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditUser(EditUserModel modelUpdate)
+        {
+            var user = await _userManager.FindByIdAsync(modelUpdate.Id);
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = $"User with Id = {modelUpdate.Id} cannot be found";
+                return View("NotFound");
+            } else{
+                user.Email = modelUpdate.Email;
+                user.UserName = modelUpdate.UserName;
+                user.FullName = modelUpdate.FullName;
+                var result = await _userManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("ListUsers");
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+                return View(modelUpdate);
+            }
+        }
+        [HttpGet]
+        public async Task<IActionResult> ListUsers()
+        {
+            List<ApplicationUser> notRoledUser = new List<ApplicationUser>();
+            List<ApplicationUser> allUsers = new List<ApplicationUser>();
+            var users = _userManager.Users;
+            foreach (var item in users)
+            {
+                if ((await _userManager.IsInRoleAsync(item, "Admin"))|| (await _userManager.IsInRoleAsync(item, "User")))
+                {
+                    allUsers.Add(item);
+                }
+                else
+                {
+                    notRoledUser.Add(item);
+                }
+            }
+            allUsers.AddRange(notRoledUser);
+            return View(allUsers);
+        }
         [HttpGet]
         public IActionResult CreateRole()
         {

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CoronaPredictionsAspNetCore.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin,User")]
     [Route("[controller]")]
     [ApiController]
     public class StandingsController :Controller

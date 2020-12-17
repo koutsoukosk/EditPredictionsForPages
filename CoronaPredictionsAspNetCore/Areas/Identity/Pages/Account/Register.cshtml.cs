@@ -70,11 +70,11 @@ namespace CoronaPredictionsAspNetCore.Areas.Identity.Pages.Account
         }
 
         public async Task OnGetAsync(string returnUrl = null)
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                Response.Redirect("/");
-            }
+        {           
+            //if (User.Identity.IsAuthenticated)
+            //{
+            //    Response.Redirect("/");
+            //}          
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -123,6 +123,10 @@ namespace CoronaPredictionsAspNetCore.Areas.Identity.Pages.Account
                     }
                     else
                     {
+                        if(_signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                        {
+                            return RedirectToAction("ListUsers","Administration");
+                        }
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
                     }

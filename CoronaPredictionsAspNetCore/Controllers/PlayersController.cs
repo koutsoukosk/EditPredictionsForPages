@@ -11,7 +11,7 @@ using CoronaPredictionsAspNetCore.DataAccessLayer;
 
 namespace CoronaPredictionsAspNetCore.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="Admin,User")]
     public class PlayersController : Controller
     {
         private readonly PredictCoronaCasesDBContext _context;

@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CoronaPredictionsAspNetCore.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin,User")]
     public class PredictionsController : Controller
     {
         private readonly PredictCoronaCasesDBContext _context;
