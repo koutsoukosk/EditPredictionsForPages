@@ -59,7 +59,7 @@
         </div>
         <div class="card-footer">
             @*asp-action="EditUser" asp-controller="Administration" asp-route-roleId="@Model.Id"*@
-            <a href="#" class="btn btn-primary" style="width:auto">Manage Roles</a>
+            <a asp-action="ManageUserRoles" asp-route-userId="@Model.Id" class="btn btn-primary" style="width:auto">Manage Roles</a>
         </div>
     </div>
     <div class="card mt-3">
@@ -81,7 +81,7 @@
         </div>
         <div class="card-footer">
             @*asp-action="EditUsersInRole" asp-controller="Administration" asp-route-roleId="@Model.Id"*@
-            <a href="#"
+            <a asp-action="ManageUserClaims" asp-route-userId="@Model.Id"
                class="btn btn-primary" style="width:auto">Manage Claims</a>
         </div>
     </div>

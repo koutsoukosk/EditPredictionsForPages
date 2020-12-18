@@ -28,6 +28,11 @@ namespace CoronaPredictionsAspNetCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //to evala sto delete role. Gia na mporei na diagrapsei rolo prepei na exei ta 2 claims(Delete & Create Role)
+            services.AddAuthorization(options=> 
+                                      options.AddPolicy("DeleteRolePolicy", policy=>
+                                                                            policy.RequireClaim("Delete Role")
+                                                                                  .RequireClaim("Create Role")));
             services.AddControllersWithViews();
             services.AddScoped<IPredictionsRepo, PredictionsRepo>();
             services.AddScoped<IRealCasesRepo, RealCasesRepo>();
