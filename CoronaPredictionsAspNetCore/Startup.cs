@@ -31,8 +31,8 @@ namespace CoronaPredictionsAspNetCore
             //to evala sto delete role. Gia na mporei na diagrapsei rolo prepei na exei ta 2 claims(Delete & Create Role)
             services.AddAuthorization(options=> 
                                       options.AddPolicy("DeleteRolePolicy", policy=>
-                                                                            policy.RequireClaim("Delete Role")
-                                                                                  .RequireClaim("Create Role")));
+                                                                            policy.RequireClaim("Delete Role","true")
+                                                                                  .RequireClaim("Create Role", "true")));
             services.AddControllersWithViews();
             services.AddScoped<IPredictionsRepo, PredictionsRepo>();
             services.AddScoped<IRealCasesRepo, RealCasesRepo>();

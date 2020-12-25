@@ -40,7 +40,7 @@ namespace CoronaPredictionsAspNetCore.Controllers
                 Email = user.Email,
                 UserName = user.UserName,
                 FullName = user.FullName,
-                Claims = userClaims.Select(x => x.Value).ToList(),
+                Claims = userClaims.Select(x => x.Type+" : "+ x.Value).ToList(),
                 Roles = userRoles
             };
             return View(model);
@@ -232,7 +232,7 @@ namespace CoronaPredictionsAspNetCore.Controllers
             foreach (Claim claim in ClaimsStore.AllClaims)
             {
                 UserClaim userClaim = new UserClaim { ClaimType = claim.Type };
-                if (existingUserClaims.Any(c => c.Type == claim.Type))
+                if (existingUserClaims.Any(c => c.Type == claim.Type && claim.Value=="true"))
                 {
                     userClaim.IsSelected = true;
                 }
@@ -256,8 +256,8 @@ namespace CoronaPredictionsAspNetCore.Controllers
                 ModelState.AddModelError("", "Cannot remove user existing claims");
                 return View(model);
             }
-            result = await _userManager.AddClaimsAsync(user, model.ClaimsOfUser.Where(x => x.IsSelected).
-                Select(y => new Claim(y.ClaimType, y.ClaimType)));
+            result = await _userManager.AddClaimsAsync(user, model.ClaimsOfUser.
+                Select(y => new Claim(y.ClaimType, y.IsSelected ? "true":"false ")));
             if (!result.Succeeded)
             {
                 ModelState.AddModelError("", "Cannot add selected claims to user");

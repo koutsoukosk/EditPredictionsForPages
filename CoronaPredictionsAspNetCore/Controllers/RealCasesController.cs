@@ -23,7 +23,7 @@ namespace CoronaPredictionsAspNetCore.Controllers
         // GET: RealCases
         public async Task<IActionResult> Index()
         {
-            return View(await _context.RealCasesEachDay.OrderBy(x => x.DateOfRealCases).ToListAsync());
+            return View(await _context.RealCasesEachDay.OrderByDescending(x => x.DateOfRealCases).ToListAsync());
         }
 
         // GET: RealCases/Details/5
