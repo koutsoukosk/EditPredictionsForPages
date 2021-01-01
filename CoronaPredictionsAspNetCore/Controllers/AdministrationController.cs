@@ -76,20 +76,20 @@ namespace CoronaPredictionsAspNetCore.Controllers
         {
             List<ApplicationUser> notRoledUser = new List<ApplicationUser>();
             List<ApplicationUser> allUsers = new List<ApplicationUser>();
-            var users = _userManager.Users;
-            foreach (var item in users)
-            {
-                if ((await _userManager.IsInRoleAsync(item, "Admin")) || (await _userManager.IsInRoleAsync(item, "User")))
-                {
-                    allUsers.Add(item);
-                }
-                else
-                {
-                    notRoledUser.Add(item);
-                }
-            }
-            allUsers.AddRange(notRoledUser);
-            return View(allUsers);
+            var users = _userManager.Users.OrderByDescending(x=>x.DateTimeRegister);
+            //foreach (var item in users)
+            //{
+            //    if ((await _userManager.IsInRoleAsync(item, "Admin")) || (await _userManager.IsInRoleAsync(item, "User")))
+            //    {
+            //        allUsers.Add(item);
+            //    }
+            //    else
+            //    {
+            //        notRoledUser.Add(item);
+            //    }
+            //}
+            //allUsers.AddRange(notRoledUser);
+            return View(users);
         }
        
         [HttpPost]

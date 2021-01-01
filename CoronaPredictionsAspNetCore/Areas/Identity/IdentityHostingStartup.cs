@@ -7,21 +7,25 @@ using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NETCore.MailKit.Extensions;
+using NETCore.MailKit.Infrastructure.Internal;
 
 [assembly: HostingStartup(typeof(CoronaPredictionsAspNetCore.Areas.Identity.IdentityHostingStartup))]
 namespace CoronaPredictionsAspNetCore.Areas.Identity
 {
     public class IdentityHostingStartup : IHostingStartup
     {
+       
         public void Configure(IWebHostBuilder builder)
         {
             builder.ConfigureServices((context, services) => {
                 services.AddDbContext<AuthDbContext>(options =>
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("AuthDbContextConnection")));
-
-                services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddRoles<IdentityRole>() .AddEntityFrameworkStores<AuthDbContext>();
+                var mailKitOptions = context.Configuration.GetSection("EmailOptions").Get<MailKitOptions>();
+                services.AddMailKit(conf=>conf.UseMailKit(mailKitOptions));
+                services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedEmail = true)
+                .AddRoles<IdentityRole>() .AddEntityFrameworkStores<AuthDbContext>().AddDefaultTokenProviders();
             });
         }
     }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoronaPredictionsAspNetCore.Areas.Identity.Data;
 using CoronaPredictionsAspNetCore.DataAccessLayer;
 using CoronaPredictionsAspNetCore.Models;
 using Microsoft.AspNetCore.Builder;
@@ -40,7 +41,8 @@ namespace CoronaPredictionsAspNetCore
             services.AddScoped<ISystemPointsRepo, SystemPointsRepo>();
             services.AddScoped<IPlayersRepo, PlayersRepo>();
             services.AddDbContext<PredictCoronaCasesDBContext>(options=>options.UseSqlServer(Configuration.GetConnectionString("CoronaPredictionsDBConnStr")));
-           
+            //Default token lifespan is 1 day
+            //services.Configure<DataProtectionTokenProviderOptions>(o=>o.TokenLifespan=TimeSpan.FromDays(2));
             services.AddRazorPages();
         }
 
