@@ -33,57 +33,71 @@
         </li>*@
                         @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                         {
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-danger" href="#" id="navbarDropdownMenuLink" 
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                               Manage
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" asp-controller="Administration" asp-action="ListUsers">
-                                    Users
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-danger" href="#" id="navbarDropdownMenuLink"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Manage
                                 </a>
-                                <a class="dropdown-item" asp-controller="Administration" asp-action="ListRoles">
-                                    Roles
-                                </a>
-                            </div>
-                        </li>
-                                @*<li class="nav-item">
-                    <a class="nav-link text-danger" asp-area="" asp-controller="Administration" asp-action="ListRoles">
-                        Manage Roles
-                    </a>
-                </li>*@
-                                }
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item" asp-controller="Administration" asp-action="ListUsers">
+                                        Users
+                                    </a>
+                                    <a class="dropdown-item" asp-controller="Administration" asp-action="ListRoles">
+                                        Roles
+                                    </a>
+                                </div>
+                            </li>
+                            @*<li class="nav-item">
+                <a class="nav-link text-danger" asp-area="" asp-controller="Administration" asp-action="ListRoles">
+                    Manage Roles
+                </a>
+            </li>*@
+                        }
+                        @if (signInManager.IsSignedIn(User) && (User.IsInRole("User") || User.IsInRole("Admin")))
+                        {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Players" asp-action="Index">
                                     <i class="fas fa-user"></i> Players
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="PointSystems" asp-action="Index">
-                                    <i class="fas fa-chart-bar"></i> Point System
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="RealCases" asp-action="Index">
-                                    <i class="fas fa-clinic-medical"></i> Real Cases
-                                </a>
-                            </li>
+                        }
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="PointSystems" asp-action="Index">
+                                <i class="fas fa-chart-bar"></i> Point System
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="RealCases" asp-action="Index">
+                                <i class="fas fa-clinic-medical"></i> Real Cases
+                            </a>
+                        </li>
+                        @if (signInManager.IsSignedIn(User) && (User.IsInRole("User") || User.IsInRole("Admin")))
+                        {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Predictions" asp-action="Index">
                                     <i class="fas fa-balance-scale"></i> Predictions
                                 </a>
                             </li>
+                        }
+                        @if (signInManager.IsSignedIn(User) && (User.IsInRole("User") || User.IsInRole("Admin")))
+                        {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Standings" asp-action="OverallStandings">
                                     <i class="fas fa-trophy"></i> Overall Standings
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="PlayerOfDay" asp-action="PlayersOfTheDay">
-                                    <i class="fas fa-star"></i> Player(s) Of the Day
-                                </a>
-                            </li>
-                        </ul>
+                        }
+                        @if (signInManager.IsSignedIn(User) && (User.IsInRole("User") || User.IsInRole("Admin")))
+                        {
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="PlayerOfDay" asp-action="PlayersOfTheDay">
+                            <i class="fas fa-star"></i> Player(s) Of the Day
+                        </a>
+                    </li>
+                        }
+                        
+                    </ul>
                 </div>
             </div>
         </nav>

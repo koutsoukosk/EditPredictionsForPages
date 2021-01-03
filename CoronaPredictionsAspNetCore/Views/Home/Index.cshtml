@@ -1,8 +1,17 @@
-﻿@{
+﻿@inject Microsoft.AspNetCore.Identity.SignInManager<CoronaPredictionsAspNetCore.Areas.Identity.Data.ApplicationUser> signInManager;
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Here you can find <a href="https://www.worldometers.info/coronavirus/">information about coronavirus cases</a>.</p>
-</div>
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+        &nbsp;
+        @if (signInManager.IsSignedIn(User) && (!User.IsInRole("User") && !User.IsInRole("Admin")))
+        {
+            <h4 style="color:yellowgreen"> We will communicate with you to accept your registration!</h4>
+        }
+        &nbsp;
+        <p>Here you can find <a href="https://www.worldometers.info/coronavirus/">information about coronavirus cases</a>.</p>
+
+    </div>

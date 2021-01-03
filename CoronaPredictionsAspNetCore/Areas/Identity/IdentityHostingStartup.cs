@@ -2,6 +2,7 @@
 using CoronaPredictionsAspNetCore.Areas.Identity.Data;
 using CoronaPredictionsAspNetCore.Models;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +27,7 @@ namespace CoronaPredictionsAspNetCore.Areas.Identity
                 services.AddMailKit(conf=>conf.UseMailKit(mailKitOptions));
                 services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedEmail = true)
                 .AddRoles<IdentityRole>() .AddEntityFrameworkStores<AuthDbContext>().AddDefaultTokenProviders();
+               
             });
         }
     }
