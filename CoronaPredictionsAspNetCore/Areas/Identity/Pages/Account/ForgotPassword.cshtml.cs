@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using CoronaPredictionsAspNetCore.Areas.Identity.Pages.Account;
+
 
 namespace CoronaPredictionsAspNetCore.Areas.Identity.Pages.Account
 {
@@ -63,6 +65,7 @@ namespace CoronaPredictionsAspNetCore.Areas.Identity.Pages.Account
         //ForgotPasswordModel model
         public async Task<IActionResult> OnPostAsync()
         {
+            
             if (ModelState.IsValid) {
                 var user = await _userManager.FindByEmailAsync(Input.Email);
                 if (user!=null && await _userManager.IsEmailConfirmedAsync(user)) {
@@ -72,6 +75,15 @@ namespace CoronaPredictionsAspNetCore.Areas.Identity.Pages.Account
                                                     values: new { email = Input.Email, token = token },
                                                     protocol: Request.Scheme);
                     _logger.Log(LogLevel.Warning, passwordResetLink);
+                    //dokimes
+                    string mailUser = "koutsoukoskdeveloper@hotmail.com";
+                    string mailUserPwd = "Kostis10590!";
+                    var sender = new RegisterModel.OutlookDotComMail(mailUser, mailUserPwd);
+
+                    string subjectMsg = "Reset your password";
+
+                    sender.SendMail(user.Email, subjectMsg,
+                        $"Please reset your password by clicking here {passwordResetLink}");
                     return RedirectToPage("./ForgotPasswordConfirmation");
                 }
                 return RedirectToPage("./ForgotPasswordConfirmation");

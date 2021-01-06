@@ -74,7 +74,7 @@ namespace CoronaPredictionsAspNetCore.Areas.Identity.Pages.Account
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> OnPostAsync(string token, string email)
+        public async Task<IActionResult> OnPostAsync( string email, string token)
         {
             if (ModelState.IsValid) {
                 var user = await _userManager.FindByEmailAsync(email);
@@ -82,7 +82,10 @@ namespace CoronaPredictionsAspNetCore.Areas.Identity.Pages.Account
                     var result = await _userManager.ResetPasswordAsync(user, token, Input.Password);
                     if (result.Succeeded)
                     {
-                      
+                        if (await _userManager.IsLockedOutAsync(user))
+                        {
+                            await _userManager.SetLockoutEndDateAsync(user,DateTimeOffset.UtcNow);
+                        }
                         return RedirectToPage("./ResetPasswordConfirmation");
                     }
                     foreach (var error in result.Errors)

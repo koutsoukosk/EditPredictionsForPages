@@ -25,9 +25,13 @@ namespace CoronaPredictionsAspNetCore.Areas.Identity
                         context.Configuration.GetConnectionString("AuthDbContextConnection")));
                 var mailKitOptions = context.Configuration.GetSection("EmailOptions").Get<MailKitOptions>();
                 services.AddMailKit(conf=>conf.UseMailKit(mailKitOptions));
-                services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedEmail = true)
+                services.AddDefaultIdentity<ApplicationUser>(options => {
+                    options.SignIn.RequireConfirmedEmail = true;
+                    options.Lockout.MaxFailedAccessAttempts = 5;
+                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
+                })
                 .AddRoles<IdentityRole>() .AddEntityFrameworkStores<AuthDbContext>().AddDefaultTokenProviders();
-               
+              
             });
         }
     }
